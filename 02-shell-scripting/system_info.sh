@@ -2,7 +2,7 @@
 # ============================================================
 # System Information Script
 # Student: PIYUSH PAWAN KUMAR
-# Enrollment: 2024eb02275
+# Enrollment: 24bcs10296
 # Description: A shell script that collects and displays
 #              system information and stores process data
 # ============================================================

@@ -1,6 +1,6 @@
 # Shell Scripting - System Information Script
 
-**Student:** PIYUSH PAWAN KUMAR | **Enrollment:** 2024eb02275
+**Student:** PIYUSH PAWAN KUMAR | **Enrollment:** 24bcs10296
 
 ---
 

@@ -11,7 +11,7 @@ public class HelloWorld {
         server.createContext("/", new HttpHandler() {
             @Override
             public void handle(HttpExchange exchange) throws IOException {
-                String response = "<h1>Hello World from Java!</h1><p>Student: PIYUSH PAWAN KUMAR | Enrollment: 2024eb02275</p>";
+                String response = "<h1>Hello World from Java!</h1><p>Student: PIYUSH PAWAN KUMAR | Enrollment: 24bcs10296</p>";
                 exchange.getResponseHeaders().set("Content-Type", "text/html");
                 exchange.sendResponseHeaders(200, response.length());
                 OutputStream os = exchange.getResponseBody();
