@@ -16,6 +16,10 @@
 | 5 | [Docker Fundamentals](./05-docker-fundamentals/) | Hello World Apps (Node.js, Python, Java, Apache, React, Nginx) |
 | 6 | [Dockerfiles & Images](./06-dockerfiles-images/) | Multi-Stage Builds, Application Deployments |
 | 7 | [Docker Networking & Volumes](./07-docker-networking/) | Container Networking, Host Network, Bind Mount, Overlay Network |
+| 8 | [Kubernetes Fundamentals](./Kubernetes%20Fundamentals/) | Cluster Architecture, kube-system Pods, Node Capacity, First Pod, Namespaces |
+| 9 | [Kubernetes Workloads](./Kubernetes%20Workloads/) | Pods, ReplicaSets, Deployments, Rolling Updates, Rollback, DaemonSets |
+| 10 | [Kubernetes Services](./Kubernetes%20Services/) | ClusterIP, NodePort, LoadBalancer, Headless, ExternalName |
+| 11 | [Kubernetes Ingress and Config](./Kubernetes%20Ingress%20and%20Config/) | ConfigMaps, Secrets, NGINX Ingress Routing |
 
 ---
 
@@ -28,6 +32,7 @@ Each section has its own directory with a `README.md` explaining the tasks, comm
 - Linux/Ubuntu system
 - Git installed
 - Docker & Docker Compose installed
+- Minikube & Kubectl installed
 - Basic terminal knowledge
 
 ## 📝 Submission
