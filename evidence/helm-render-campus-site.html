@@ -1,0 +1,102 @@
+<!doctype html><html><head><meta charset="utf-8"><title>helm-render-campus-site</title><style>body{font-family:system-ui;margin:32px;background:#f5f7fb;color:#142039}pre{font:13px/1.45 Consolas,monospace;white-space:pre-wrap;background:white;padding:24px;border:1px solid #ccd3df;border-radius:8px}p{color:#44536a}</style></head><body><h1>helm-render-campus-site</h1><p>PIYUSH PAWAN KUMAR · 24bcs10296 · Local validation on Windows</p><p>Captured process output. This check does not certify a cluster or cloud deployment.</p><pre>---
+# Source: campus-site/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: campus-site
+  labels:
+    helm.sh/chart: campus-site-0.1.0
+    app.kubernetes.io/name: campus-site
+    app.kubernetes.io/instance: campus-site
+    app.kubernetes.io/version: &quot;1.27-alpine&quot;
+    app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: true
+---
+# Source: campus-site/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: campus-site
+  labels:
+    helm.sh/chart: campus-site-0.1.0
+    app.kubernetes.io/name: campus-site
+    app.kubernetes.io/instance: campus-site
+    app.kubernetes.io/version: &quot;1.27-alpine&quot;
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: campus-site
+    app.kubernetes.io/instance: campus-site
+---
+# Source: campus-site/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: campus-site
+  labels:
+    helm.sh/chart: campus-site-0.1.0
+    app.kubernetes.io/name: campus-site
+    app.kubernetes.io/instance: campus-site
+    app.kubernetes.io/version: &quot;1.27-alpine&quot;
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: campus-site
+      app.kubernetes.io/instance: campus-site
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: campus-site-0.1.0
+        app.kubernetes.io/name: campus-site
+        app.kubernetes.io/instance: campus-site
+        app.kubernetes.io/version: &quot;1.27-alpine&quot;
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      serviceAccountName: campus-site
+      containers:
+        - name: campus-site
+          image: &quot;nginx:1.27-alpine&quot;
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+---
+# Source: campus-site/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: &quot;campus-site-test-connection&quot;
+  labels:
+    helm.sh/chart: campus-site-0.1.0
+    app.kubernetes.io/name: campus-site
+    app.kubernetes.io/instance: campus-site
+    app.kubernetes.io/version: &quot;1.27-alpine&quot;
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    &quot;helm.sh/hook&quot;: test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: [&#x27;wget&#x27;]
+      args: [&#x27;campus-site:80&#x27;]
+  restartPolicy: Never
+
+Exit code: 0</pre></body></html>

@@ -1,0 +1,8 @@
+Command: C:\Users\Piyush\Downloads\Devops-assigment-main\.tools\helm\windows-amd64\helm.exe lint C:\Users\Piyush\Downloads\Devops-assigment-main\Devops-assigment-main\Helm\mini-project\lostfound-chart -f C:\Users\Piyush\Downloads\Devops-assigment-main\Devops-assigment-main\Helm\mini-project\lostfound-chart\values-dev.yaml
+
+==> Linting C:\Users\Piyush\Downloads\Devops-assigment-main\Devops-assigment-main\Helm\mini-project\lostfound-chart
+[INFO] Chart.yaml: icon is recommended
+
+1 chart(s) linted, 0 chart(s) failed
+
+Exit code: 0

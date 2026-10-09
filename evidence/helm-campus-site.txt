@@ -1,0 +1,8 @@
+Command: C:\Users\Piyush\Downloads\Devops-assigment-main\.tools\helm\windows-amd64\helm.exe lint C:\Users\Piyush\Downloads\Devops-assigment-main\Devops-assigment-main\Helm\01-helm-commands\campus-site
+
+==> Linting C:\Users\Piyush\Downloads\Devops-assigment-main\Devops-assigment-main\Helm\01-helm-commands\campus-site
+[INFO] Chart.yaml: icon is recommended
+
+1 chart(s) linted, 0 chart(s) failed
+
+Exit code: 0

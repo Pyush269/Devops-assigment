@@ -1,0 +1,4 @@
+Command: C:\Users\Piyush\Downloads\Devops-assigment-main\.tools\terraform\terraform.exe fmt -check
+
+
+Exit code: 0

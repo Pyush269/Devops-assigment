@@ -1,0 +1,18 @@
+Command: C:\Users\Piyush\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe C:\Users\Piyush\Downloads\Devops-assigment-main\.tools\run_python.py pytest --junitxml=local-junit.xml --cov-report=xml:local-coverage.xml
+
+...............................                                          [100%]
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.12.14-final-0 _______________
+
+Name              Stmts   Miss  Cover   Missing
+-----------------------------------------------
+app\__init__.py       0      0   100%
+app\grading.py       24      0   100%
+app\main.py          38      0   100%
+-----------------------------------------------
+TOTAL                62      0   100%
+Coverage XML written to file local-coverage.xml
+Required test coverage of 90% reached. Total coverage: 100.00%
+31 passed in 0.46s
+
+Exit code: 0

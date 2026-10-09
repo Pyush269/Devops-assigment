@@ -1,0 +1,156 @@
+<!doctype html><html><head><meta charset="utf-8"><title>helm-render-lostfound-prod</title><style>body{font-family:system-ui;margin:32px;background:#f5f7fb;color:#142039}pre{font:13px/1.45 Consolas,monospace;white-space:pre-wrap;background:white;padding:24px;border:1px solid #ccd3df;border-radius:8px}p{color:#44536a}</style></head><body><h1>helm-render-lostfound-prod</h1><p>PIYUSH PAWAN KUMAR · 24bcs10296 · Local validation on Windows</p><p>Captured process output. This check does not certify a cluster or cloud deployment.</p><pre>---
+# Source: lostfound/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lostfound-prod-lostfound
+  labels:
+    app.kubernetes.io/name: lostfound
+    app.kubernetes.io/instance: lostfound-prod
+    app.kubernetes.io/version: &quot;1.0.0&quot;
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: lostfound-0.2.0
+    environment: production
+data:
+  ENVIRONMENT: &quot;production&quot;
+  CAMPUS: &quot;Bhopal&quot;
+  ITEMS: &quot;Blue water bottle - Library, 2nd floor|Casio fx-991 calculator - Exam hall B&quot;
+  server.py: |
+    import json, os, socket
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            if self.path == &quot;/healthz&quot;:
+                body = {&quot;status&quot;: &quot;ok&quot;}
+            else:
+                body = {
+                    &quot;board&quot;: &quot;lost-and-found&quot;,
+                    &quot;campus&quot;: os.environ[&quot;CAMPUS&quot;],
+                    &quot;environment&quot;: os.environ[&quot;ENVIRONMENT&quot;],
+                    &quot;items&quot;: os.environ[&quot;ITEMS&quot;].split(&quot;|&quot;),
+                    &quot;served_by&quot;: socket.gethostname(),
+                }
+            data = json.dumps(body).encode()
+            self.send_response(200)
+            self.send_header(&quot;Content-Type&quot;, &quot;application/json&quot;)
+            self.end_headers()
+            self.wfile.write(data + b&quot;\n&quot;)
+
+        def log_message(self, *args):
+            pass
+
+    HTTPServer((&quot;&quot;, int(os.environ.get(&quot;PORT&quot;, &quot;8000&quot;))), Handler).serve_forever()
+---
+# Source: lostfound/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: lostfound-prod-lostfound
+  labels:
+    app.kubernetes.io/name: lostfound
+    app.kubernetes.io/instance: lostfound-prod
+    app.kubernetes.io/version: &quot;1.0.0&quot;
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: lostfound-0.2.0
+    environment: production
+spec:
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: lostfound
+    app.kubernetes.io/instance: lostfound-prod
+  ports:
+    - port: 80
+      targetPort: http
+      nodePort: 30480
+---
+# Source: lostfound/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lostfound-prod-lostfound
+  labels:
+    app.kubernetes.io/name: lostfound
+    app.kubernetes.io/instance: lostfound-prod
+    app.kubernetes.io/version: &quot;1.0.0&quot;
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: lostfound-0.2.0
+    environment: production
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: lostfound
+      app.kubernetes.io/instance: lostfound-prod
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: lostfound
+        app.kubernetes.io/instance: lostfound-prod
+      annotations:
+        checksum/config: ba5bdc8170d1a54b73a7383e814dc7cf0277bfbf8f9faea79c89e1b70ea24333
+    spec:
+      containers:
+        - name: api
+          image: &quot;python:3.12-alpine&quot;
+          imagePullPolicy: IfNotPresent
+          command: [&quot;python&quot;, &quot;/app/server.py&quot;]
+          env:
+            - name: PORT
+              value: &quot;8000&quot;
+          envFrom:
+            - configMapRef:
+                name: lostfound-prod-lostfound
+          ports:
+            - name: http
+              containerPort: 8000
+          readinessProbe:
+            httpGet: { path: /healthz, port: http }
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: { path: /healthz, port: http }
+            periodSeconds: 10
+          resources:
+            limits:
+              cpu: 250m
+              memory: 128Mi
+            requests:
+              cpu: 50m
+              memory: 48Mi
+          volumeMounts:
+            - name: code
+              mountPath: /app
+      volumes:
+        - name: code
+          configMap:
+            name: lostfound-prod-lostfound
+            items:
+              - { key: server.py, path: server.py }
+---
+# Source: lostfound/templates/hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: lostfound-prod-lostfound
+  labels:
+    app.kubernetes.io/name: lostfound
+    app.kubernetes.io/instance: lostfound-prod
+    app.kubernetes.io/version: &quot;1.0.0&quot;
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: lostfound-0.2.0
+    environment: production
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: lostfound-prod-lostfound
+  minReplicas: 3
+  maxReplicas: 6
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+
+Exit code: 0</pre></body></html>

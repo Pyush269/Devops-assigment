@@ -1,0 +1,74 @@
+<!doctype html><html><head><meta charset="utf-8"><title>helm-render-timetable</title><style>body{font-family:system-ui;margin:32px;background:#f5f7fb;color:#142039}pre{font:13px/1.45 Consolas,monospace;white-space:pre-wrap;background:white;padding:24px;border:1px solid #ccd3df;border-radius:8px}p{color:#44536a}</style></head><body><h1>helm-render-timetable</h1><p>PIYUSH PAWAN KUMAR · 24bcs10296 · Local validation on Windows</p><p>Captured process output. This check does not certify a cluster or cloud deployment.</p><pre>---
+# Source: timetable/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: timetable-timetable-page
+  labels:
+    app.kubernetes.io/name: timetable
+    app.kubernetes.io/instance: timetable
+    helm.sh/chart: timetable-1.0.0
+data:
+  index.html: |
+    &lt;!doctype html&gt;
+    &lt;html&gt;&lt;head&gt;&lt;title&gt;Timetable v1&lt;/title&gt;&lt;/head&gt;
+    &lt;body style=&quot;font-family:sans-serif;margin:40px&quot;&gt;
+    &lt;h1 style=&quot;color:#2f5d50&quot;&gt;Odd semester timetable&lt;/h1&gt;
+    &lt;p&gt;Release v1 &amp;middot; Helm revision 1&lt;/p&gt;
+    &lt;/body&gt;&lt;/html&gt;
+---
+# Source: timetable/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: timetable-timetable
+  labels:
+    app.kubernetes.io/name: timetable
+    app.kubernetes.io/instance: timetable
+    helm.sh/chart: timetable-1.0.0
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/instance: timetable
+  ports:
+    - port: 80
+      targetPort: 80
+---
+# Source: timetable/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timetable-timetable
+  labels:
+    app.kubernetes.io/name: timetable
+    app.kubernetes.io/instance: timetable
+    helm.sh/chart: timetable-1.0.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: timetable
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: timetable
+      annotations:
+        # roll the Pods whenever the page content changes
+        checksum/page: fadcefd10185ffeeb7b4917991c132ef29d85fad15672ef57cd909f2bceed00f
+    spec:
+      containers:
+        - name: web
+          image: &quot;nginx:1.27-alpine&quot;
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet: { path: /, port: 80 }
+          volumeMounts:
+            - name: page
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: page
+          configMap:
+            name: timetable-timetable-page
+
+Exit code: 0</pre></body></html>

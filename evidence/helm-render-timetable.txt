@@ -1,0 +1,76 @@
+Command: C:\Users\Piyush\Downloads\Devops-assigment-main\.tools\helm\windows-amd64\helm.exe template timetable C:\Users\Piyush\Downloads\Devops-assigment-main\Devops-assigment-main\Helm\02-helm-rollback\timetable-chart
+
+---
+# Source: timetable/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: timetable-timetable-page
+  labels:
+    app.kubernetes.io/name: timetable
+    app.kubernetes.io/instance: timetable
+    helm.sh/chart: timetable-1.0.0
+data:
+  index.html: |
+    <!doctype html>
+    <html><head><title>Timetable v1</title></head>
+    <body style="font-family:sans-serif;margin:40px">
+    <h1 style="color:#2f5d50">Odd semester timetable</h1>
+    <p>Release v1 &middot; Helm revision 1</p>
+    </body></html>
+---
+# Source: timetable/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: timetable-timetable
+  labels:
+    app.kubernetes.io/name: timetable
+    app.kubernetes.io/instance: timetable
+    helm.sh/chart: timetable-1.0.0
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/instance: timetable
+  ports:
+    - port: 80
+      targetPort: 80
+---
+# Source: timetable/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timetable-timetable
+  labels:
+    app.kubernetes.io/name: timetable
+    app.kubernetes.io/instance: timetable
+    helm.sh/chart: timetable-1.0.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: timetable
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: timetable
+      annotations:
+        # roll the Pods whenever the page content changes
+        checksum/page: fadcefd10185ffeeb7b4917991c132ef29d85fad15672ef57cd909f2bceed00f
+    spec:
+      containers:
+        - name: web
+          image: "nginx:1.27-alpine"
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet: { path: /, port: 80 }
+          volumeMounts:
+            - name: page
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: page
+          configMap:
+            name: timetable-timetable-page
+
+Exit code: 0

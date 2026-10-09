@@ -1,0 +1,92 @@
+{
+  "student": "PIYUSH PAWAN KUMAR",
+  "enrollment": "24bcs10296",
+  "captured_at": "2026-10-07T18:10:02.631903",
+  "results": [
+    {
+      "check": "grade-api-tests",
+      "exit_code": 0,
+      "log": "grade-api-tests.txt"
+    },
+    {
+      "check": "grade-api-lint",
+      "exit_code": 0,
+      "log": "grade-api-lint.txt"
+    },
+    {
+      "check": "notice-board-tests",
+      "exit_code": 0,
+      "log": "notice-board-tests.txt"
+    },
+    {
+      "check": "notice-board-bandit",
+      "exit_code": 0,
+      "log": "notice-board-bandit.txt"
+    },
+    {
+      "check": "helm-campus-site",
+      "exit_code": 0,
+      "log": "helm-campus-site.txt"
+    },
+    {
+      "check": "helm-render-campus-site",
+      "exit_code": 0,
+      "log": "helm-render-campus-site.txt"
+    },
+    {
+      "check": "helm-timetable",
+      "exit_code": 0,
+      "log": "helm-timetable.txt"
+    },
+    {
+      "check": "helm-render-timetable",
+      "exit_code": 0,
+      "log": "helm-render-timetable.txt"
+    },
+    {
+      "check": "helm-lostfound-dev",
+      "exit_code": 0,
+      "log": "helm-lostfound-dev.txt"
+    },
+    {
+      "check": "helm-render-lostfound-dev",
+      "exit_code": 0,
+      "log": "helm-render-lostfound-dev.txt"
+    },
+    {
+      "check": "helm-lostfound-prod",
+      "exit_code": 0,
+      "log": "helm-lostfound-prod.txt"
+    },
+    {
+      "check": "helm-render-lostfound-prod",
+      "exit_code": 0,
+      "log": "helm-render-lostfound-prod.txt"
+    },
+    {
+      "check": "terraform-cloud-format",
+      "exit_code": 0,
+      "log": "terraform-cloud-format.txt"
+    },
+    {
+      "check": "terraform-cloud-validate",
+      "exit_code": 0,
+      "log": "terraform-cloud-validate.txt"
+    },
+    {
+      "check": "terraform-s3-format",
+      "exit_code": 0,
+      "log": "terraform-s3-format.txt"
+    },
+    {
+      "check": "terraform-s3-validate",
+      "exit_code": 0,
+      "log": "terraform-s3-validate.txt"
+    },
+    {
+      "check": "manifest-syntax",
+      "exit_code": 0,
+      "log": "manifest-syntax.txt"
+    }
+  ]
+}
